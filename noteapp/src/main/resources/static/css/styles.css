@@ -1,0 +1,116 @@
+/* Reset styles */
+body, h1, h2, p, ul, li, a, input, textarea, select, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Container layout */
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: 250px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar ul li a,
+.sidebar ul li button {
+    text-decoration: none;
+    color: #333;
+    padding: 10px;
+    display: block;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+.dropdown-content {
+    display: none;
+    list-style: none;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.dropdown-content li {
+    margin-bottom: 5px;
+}
+
+.dropdown-btn:hover + .dropdown-content,
+.dropdown-btn:focus + .dropdown-content {
+    display: block;
+}
+
+/* Main content styling */
+.main-content {
+    flex: 1;
+    padding: 40px;
+    background-color: #ffffff;
+}
+
+.main-content h1 {
+    margin-bottom: 20px;
+}
+
+form label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+form input,
+form textarea,
+form select,
+form button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* Category input styling */
+.category-input {
+    display: flex;
+    align-items: center;
+}
+
+.category-input select {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.category-input button {
+    width: auto;
+    padding: 10px 15px;
+}

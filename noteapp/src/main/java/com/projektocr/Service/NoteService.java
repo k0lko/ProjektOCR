@@ -1,5 +1,6 @@
 package com.projektocr.Service;
 
+import com.projektocr.Model.Category;
 import com.projektocr.Model.Note;
 import com.projektocr.Repository.NoteRepository;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class NoteService {
         noteRepository.deleteById(id);
     }
 
-    public List<Note> getNotesByCategory(String category) {
+    public List<Note> getNotesByCategory(Category category) {
         return noteRepository.findByCategory(category);
     }
 }

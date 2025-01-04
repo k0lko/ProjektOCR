@@ -49,7 +49,7 @@ public class NoteController {
         return new ResponseEntity<>(createdNote, HttpStatus.CREATED); // Zwracamy status 201 Created
     }
 
-    // Przesyłanie obrazu związane z notatką
+    // Przesyłanie obrazu związanego z notatką
     @PostMapping("/upload")
     public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
         // Sprawdzamy, czy plik nie jest pusty

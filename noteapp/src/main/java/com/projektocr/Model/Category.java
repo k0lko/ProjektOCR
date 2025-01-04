@@ -1,6 +1,5 @@
 package com.projektocr.Model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

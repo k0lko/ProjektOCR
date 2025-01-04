@@ -14,6 +14,8 @@ public class Note {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //TODO: USUNAC KOMENTARZE
+
 //    private Long category_id;
 
     @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)

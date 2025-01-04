@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projekt Kołodziejski/Krasucki</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+    <h1>Menadżer Notatek</h1>
+</header>
+
+<section class="note-form">
+    <h2>Stwórz Notatke</h2>
+    <form id="noteForm">
+        <input type="text" id="title" name="title" placeholder="Title" required>
+        <textarea id="content" name="content" placeholder="Content" required></textarea>
+        <input type="text" id="category" name="category" placeholder="Category" required>
+        <input type="file" id="image" name="image">
+        <button type="submit">Save Note</button>
+    </form>
+</section>
+
+<section class="notes-list">
+    <h2>Wszystkie Notatki</h2>
+    <ul id="notesList"></ul>
+</section>
+
+<footer>
+    <p>&copy; 2025 Note Application</p>
+</footer>
+
+<script src="static/js/app.js"></script>
+</body>
+</html>

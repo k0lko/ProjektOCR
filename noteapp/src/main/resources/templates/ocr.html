@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APLIKACJA OCR</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar/Navbar -->
+        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="position-sticky pt-3">
+                <h5 class="text-center mt-2">Menu</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/}" aria-current="page">
+                            Powrót na Stronę Główną
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/api/ocr/history}">
+                            Historia Przetworzeń
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/api/ocr/help}">
+                            Pomoc
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="text-center mt-4">
+                <h1>APLIKACJA OCR</h1>
+            </div>
+
+            <div class="mt-5">
+                <!-- Form for file upload -->
+                <form id="uploadForm" th:action="@{/api/ocr/upload}" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Prześlij plik do analizy OCR:</label>
+                        <input type="file" id="file" name="file" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Przetwórz OCR</button>
+                </form>
+            </div>
+
+            <!-- Extracted text display -->
+            <div class="mt-4">
+                <h2>Wynik OCR</h2>
+                <textarea id="extractedText" rows="10" class="form-control" readonly></textarea>
+            </div>
+
+            <!-- Download buttons -->
+            <div class="mt-4">
+                <h3>Pobierz Wynik</h3>
+                <div class="d-grid gap-2">
+                    <button id="downloadTxt" class="btn btn-success">Pobierz jako TXT</button>
+                    <button id="downloadDocx" class="btn btn-warning">Pobierz jako Word</button>
+                    <button id="downloadPdf" class="btn btn-danger">Pobierz jako PDF</button>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- JavaScript for form submission and file download -->
+<script>
+    const form = document.getElementById("uploadForm");
+    const extractedText = document.getElementById("extractedText");
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+
+        // Send file to the server
+        const response = await fetch(form.getAttribute("th:action"), {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            const text = await response.text();
+            extractedText.value = text;
+        } else {
+            alert("Nie udało się przetworzyć OCR. Spróbuj ponownie.");
+        }
+    });
+
+    const downloadFile = async (format) => {
+        const content = encodeURIComponent(extractedText.value);
+        const response = await fetch(`/api/ocr/download?content=${content}&format=${format}`);
+
+        if (response.ok) {
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `result.${format}`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        } else {
+            alert("Nie udało się pobrać pliku.");
+        }
+    };
+
+    document.getElementById("downloadTxt").addEventListener("click", () => downloadFile("txt"));
+    document.getElementById("downloadDocx").addEventListener("click", () => downloadFile("docx"));
+    document.getElementById("downloadPdf").addEventListener("click", () => downloadFile("pdf"));
+</script>
+</body>
+</html>

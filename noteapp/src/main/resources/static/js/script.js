@@ -48,27 +48,27 @@ document.addEventListener("DOMContentLoaded", function () {
 document.getElementById('addCategory').addEventListener('click', () => {
     const newCategory = prompt('Wprowadź nową kategorię:');
     if (newCategory) {
-        //TODO: USUNAC KOMENTARZE
 
-        // fetch("http://localhost:8081/api/categories", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({
-        //         name: `${newCategory}`,
-        //     }),
-        // });
+        fetch("http://localhost:8081/api/categories", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: `${newCategory}`,
+            }),
+        });
 
-        // fetch("http://localhost:8081/api/categories", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({
-        //         name: `${category}`,
-        //     }),
-        // });
+        fetch("http://localhost:8081/api/categories", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: `${category}`,
+            }),
+        });
+
         const categoryList = document.getElementById("category")
         const optionElement = document.createElement("option")
         optionElement.value = newCategory
@@ -79,9 +79,9 @@ document.getElementById('addCategory').addEventListener('click', () => {
     }
 });
 
-// Handle document form submission
 document.getElementById('documentForm').addEventListener('submit', (e) => {
     e.preventDefault();
+
     const title = document.getElementById('title').value;
     const description = document.getElementById('description').value;
     const category = document.getElementById('category').value;
@@ -95,25 +95,26 @@ document.getElementById('documentForm').addEventListener('submit', (e) => {
     const categoryLinks = document.getElementById('categoryLinks');
     const newLink = document.createElement('li');
 
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('category', category);
+    formData.append('file', file);
+
     fetch("http://localhost:8081/api/notes", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            category:  `${category}`,
-            //TODO: WRZUCIĆ PRAWDZIWY CONTENT
-            content: `TESTOWY CONTENT`,
-            //TODO: WRZUCIĆ PRAWDZIWY IMAGEPATH
-            imagePath: `TESTOWY IMAGEPATH`,
-            title: `${title}`
-        }),
-    });
-
-    newLink.textContent = `${title} (${category})`;
-    categoryLinks.appendChild(newLink);
-
-    alert('Dokument został dodany!');
+        body: formData,
+    })
+        .then(response => response.json())
+        .then(data => {
+            newLink.textContent = `${title} (${category})`;
+            categoryLinks.appendChild(newLink);
+            alert('Dokument został dodany!');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Wystąpił błąd podczas dodawania dokumentu!');
+        });
 });
 
 // Handle dropdown visibility

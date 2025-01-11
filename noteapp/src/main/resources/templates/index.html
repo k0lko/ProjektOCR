@@ -26,23 +26,30 @@
     <!-- Main content -->
     <main class="main-content">
         <h1>Dodaj dokument</h1>
-        <form id="documentForm">
+
+        <!-- Formularz do dodawania dokumentu -->
+        <form id="documentForm" th:action="@{/api/notes}" method="post" enctype="multipart/form-data">
+            <!-- Tytuł -->
             <label for="title">Tytuł</label>
-            <input type="text" id="title" name="title" placeholder="Wprowadź tytuł" required>
+            <input type="text" id="title" name="title" placeholder="Wprowadź tytuł" required="required" th:value="${document.title}">
 
+            <!-- Krótki opis -->
             <label for="description">Krótki opis</label>
-            <textarea id="description" name="description" placeholder="Dodaj krótki opis" rows="4"></textarea>
+            <textarea id="description" name="description" placeholder="Dodaj krótki opis" rows="4" th:value="${document.description}"></textarea>
 
+            <!-- Kategoria -->
             <label for="category">Kategoria</label>
             <div class="category-input">
-                <select id="category" name="category">
+                <select id="category" name="category" th:value="${document.category}">
                     <option value="" disabled selected>Wybierz kategorię</option>
+                    <!-- Możesz dodać kategorie tutaj lub dynamicznie -->
                 </select>
                 <button type="button" id="addCategory">Dodaj kategorię</button>
             </div>
 
+            <!-- Plik -->
             <label for="file">Dodaj plik</label>
-            <input type="file" id="file" name="file" accept=".pdf,.doc,.docx,.txt" required>
+            <input type="file" id="file" name="file" accept=".pdf,.doc,.docx,.txt" required="required">
 
             <button type="submit">Dodaj dokument</button>
         </form>

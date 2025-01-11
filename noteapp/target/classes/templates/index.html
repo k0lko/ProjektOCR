@@ -3,35 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projekt Kołodziejski/Krasucki</title>
-    <link rel="stylesheet" href="static/style.css">
+    <title>Note App - Home</title>
+    <!-- Zmiana ścieżki dla CSS -->
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+<div class="container">
+    <!-- Navbar -->
+    <aside class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="ocr.html">Funkcja OCR</a></li>
+            <li class="dropdown">
+                <button class="dropdown-btn">Dokumenty</button>
+                <ul class="dropdown-content" id="categoryLinks">
+                    <!-- Kategorie dodane przez użytkownika pojawią się tutaj -->
+                </ul>
+            </li>
+        </ul>
+    </aside>
 
-<header>
-    <h1>Menadżer Notatek</h1>
-</header>
+    <!-- Main content -->
+    <main class="main-content">
+        <h1>Dodaj dokument</h1>
 
-<section class="note-form">
-    <h2>Dodaj Notatke</h2>
-    <form id="noteForm">
-        <input type="text" id="title" name="title" placeholder="Title" required>
-        <textarea id="content" name="content" placeholder="Content" required></textarea>
-        <input type="text" id="category" name="category" placeholder="Category" required>
-        <input type="file" id="image" name="image">
-        <button type="submit">Save Note</button>
-    </form>
-</section>
+        <!-- Formularz do dodawania dokumentu -->
+        <form id="documentForm" th:action="@{/api/notes}" method="post" enctype="multipart/form-data">
+            <!-- Tytuł -->
+            <label for="title">Tytuł</label>
+            <input type="text" id="title" name="title" placeholder="Wprowadź tytuł" required="required" th:value="${document.title}">
 
-<section class="notes-list">
-    <h2>Wszystkie Notatki</h2>
-    <ul id="notesList"></ul>
-</section>
+            <!-- Krótki opis -->
+            <label for="description">Krótki opis</label>
+            <textarea id="description" name="description" placeholder="Dodaj krótki opis" rows="4" th:value="${document.description}"></textarea>
 
-<footer>
-    <p>&copy; 2025 Note Application</p>
-</footer>
+            <!-- Kategoria -->
+            <label for="category">Kategoria</label>
+            <div class="category-input">
+                <select id="category" name="category" th:value="${document.category}">
+                    <option value="" disabled selected>Wybierz kategorię</option>
+                    <!-- Możesz dodać kategorie tutaj lub dynamicznie -->
+                </select>
+                <button type="button" id="addCategory">Dodaj kategorię</button>
+            </div>
 
-<script src="static/js/app.js"></script>
+            <!-- Plik -->
+            <label for="file">Dodaj plik</label>
+            <input type="file" id="file" name="file" accept=".pdf,.doc,.docx,.txt" required="required">
+
+            <button type="submit">Dodaj dokument</button>
+        </form>
+    </main>
+</div>
+
+<!-- Zmiana ścieżki dla JavaScript -->
+<script src="js/script.js"></script>
 </body>
 </html>

@@ -1,31 +1,38 @@
 package com.projektocr.Model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import org.springframework.data.annotation.Id;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode
 public class Note {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //TODO: USUNAC KOMENTARZE
-
-//    private Long category_id;
-
-    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
-
+    @NotBlank(message = "Tytuł jest wymagany.")
+    @Size(max = 100, message = "Tytuł nie może przekraczać 100 znaków.")
     private String title;
-    private String content;
-    private String imagePath;
 
+    @Size(max = 255, message = "Opis nie może przekraczać 255 znaków.")
+    private String description;
+
+    private String category;
+
+    public Note() {}
+
+    public Note(String title, String description, String category) {
+        this.title = title;
+        this.description = description;
+        this.category = category;
+    }
+
+    // Gettery i Settery
     public Long getId() {
         return id;
     }
@@ -42,43 +49,19 @@ public class Note {
         this.title = title;
     }
 
-    public String getContent() {
-        return content;
+    public String getDescription() {
+        return description;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
-
-    //TODO: USUSNAC KOMENTARZE
-
-//    @OneToOne
-//    @JoinColumn
-//    public Category getCategory() {
-//        return category;
-//    }
-
-    @JsonProperty("category")
-    public void deserializeCategory(String category) {
-        Category categoryObj = new Category();
-        categoryObj.setName(category);
-        this.category = categoryObj;
-    }
-
 }

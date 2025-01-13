@@ -7,12 +7,13 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.Set;
 
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+
 public class Category implements Serializable {
+
+    public static final String CATEGORY_ID_COLUMN_NAME = "category_id";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +22,7 @@ public class Category implements Serializable {
     @NotNull
     private String name;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Note> notes;
 
     public Long getId() {
@@ -32,12 +33,19 @@ public class Category implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
+    public @NotNull String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NotNull String name) {
         this.name = name;
     }
 
+    public Set<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(Set<Note> notes) {
+        this.notes = notes;
+    }
 }

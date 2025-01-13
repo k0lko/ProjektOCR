@@ -2,74 +2,74 @@ package com.projektocr.Controller;
 
 import com.projektocr.Model.Note;
 import com.projektocr.Service.NoteService;
-import com.projektocr.Service.FileService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/notes")
 public class NoteController {
-
+    private static final String UPLOAD_DIRECTORY = "uploads/"; // Przeniesiono do stałej
     private final NoteService noteService;
-    private final FileService fileService;
 
-    @Value("${upload.dir}")
-    private String uploadDir;
-
-    public NoteController(NoteService noteService, FileService fileService) {
+    public NoteController(NoteService noteService) {
         this.noteService = noteService;
-        this.fileService = fileService;
     }
 
-    // Pobierz wszystkie notatki
     @GetMapping
     public List<Note> getAllNotes() {
         return noteService.getAllNotes();
     }
 
-    // Pobierz pojedynczą notatkę po ID
     @GetMapping("/{id}")
     public ResponseEntity<Note> getNoteById(@PathVariable Long id) {
         Optional<Note> note = noteService.getNoteById(id);
         return note.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Utwórz nową notatkę
     @PostMapping
     public ResponseEntity<Note> createNote(@Valid @RequestBody Note note) {
         Note createdNote = noteService.saveNote(note);
         return new ResponseEntity<>(createdNote, HttpStatus.CREATED);
     }
 
-    // Przesyłanie pliku związanego z notatką
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nie przesłano pliku.");
+        }
         try {
-            String filePath = fileService.saveFile(file);
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body("Plik został pomyślnie przesłany: " + filePath);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Wystąpił błąd podczas przesyłania pliku: " + e.getMessage());
+            createUploadDirectoryIfNotExists();
+            String filePath = saveFile(file);
+            return ResponseEntity.status(HttpStatus.OK).body("Plik został pomyślnie przesłany: " + filePath);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Nie udało się przesłać pliku: " + e.getMessage());
         }
     }
 
-    // Usuwanie notatki po ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteNoteById(@PathVariable Long id) {
-        if (!noteService.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
         noteService.deleteNoteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // Ekstrakcja metody do tworzenia katalogu
+    private void createUploadDirectoryIfNotExists() throws IOException {
+        Files.createDirectories(Paths.get(UPLOAD_DIRECTORY));
+    }
+
+    // Ekstrakcja metody do zapisu plików
+    private String saveFile(MultipartFile file) throws IOException {
+        String filePath = UPLOAD_DIRECTORY + file.getOriginalFilename();
+        file.transferTo(new File(filePath));
+        return filePath;
     }
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Note App - Home</title>
+    <title>Menadżer Notatek</title>
     <!-- Zmiana ścieżki dla CSS -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -13,7 +13,8 @@
     <aside class="sidebar">
         <h2>Menu</h2>
         <ul>
-            <li><a href="ocr.html">Funkcja OCR</a></li>
+            <li><p>OCR<a th:href="@{/ocr.html}"></a>
+            </p></li>
             <li class="dropdown">
                 <button class="dropdown-btn">Dokumenty</button>
                 <ul class="dropdown-content" id="categoryLinks">
@@ -26,30 +27,23 @@
     <!-- Main content -->
     <main class="main-content">
         <h1>Dodaj dokument</h1>
-
-        <!-- Formularz do dodawania dokumentu -->
-        <form id="documentForm" th:action="@{/api/notes}" method="post" enctype="multipart/form-data">
-            <!-- Tytuł -->
+        <form id="documentForm">
             <label for="title">Tytuł</label>
-            <input type="text" id="title" name="title" placeholder="Wprowadź tytuł" required="required" th:value="${document.title}">
+            <input type="text" id="title" name="title" placeholder="Wprowadź tytuł" required>
 
-            <!-- Krótki opis -->
             <label for="description">Krótki opis</label>
-            <textarea id="description" name="description" placeholder="Dodaj krótki opis" rows="4" th:value="${document.description}"></textarea>
+            <textarea id="description" name="description" placeholder="Dodaj krótki opis" rows="4"></textarea>
 
-            <!-- Kategoria -->
             <label for="category">Kategoria</label>
             <div class="category-input">
-                <select id="category" name="category" th:value="${document.category}">
+                <select id="category" name="category">
                     <option value="" disabled selected>Wybierz kategorię</option>
-                    <!-- Możesz dodać kategorie tutaj lub dynamicznie -->
                 </select>
                 <button type="button" id="addCategory">Dodaj kategorię</button>
             </div>
 
-            <!-- Plik -->
             <label for="file">Dodaj plik</label>
-            <input type="file" id="file" name="file" accept=".pdf,.doc,.docx,.txt" required="required">
+            <input type="file" id="file" name="file" accept=".pdf,.doc,.docx,.txt" required>
 
             <button type="submit">Dodaj dokument</button>
         </form>

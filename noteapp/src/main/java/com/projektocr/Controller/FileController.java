@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 @RequestMapping("/api/files/upload")
 public class FileController {
 
-    private String uploadDir;
+    private final String uploadDir;
 
     public FileController() {
         // Pobieranie katalogu roboczego aplikacji

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menadżer Notatek</title>
     <!-- Zmiana ścieżki dla CSS -->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="../static/css/styles.css" th:href="@{/css/styles.css}">
 </head>
 <body>
 <div class="container">
@@ -13,7 +13,7 @@
     <aside class="sidebar">
         <h2>Menu</h2>
         <ul>
-            <li><p>OCR<a th:href="@{/ocr.html}"></a>
+            <li><p>OCR<a href="./ocr.html" th:href="@{ocr}"></a>
             </p></li>
             <li class="dropdown">
                 <button class="dropdown-btn">Dokumenty</button>
@@ -51,6 +51,6 @@
 </div>
 
 <!-- Zmiana ścieżki dla JavaScript -->
-<script src="js/script.js"></script>
+<script src="../static/js/script.js" th:src="@{/js/script.js}" ></script>
 </body>
 </html>

@@ -42,7 +42,7 @@
 
             <div class="mt-5">
                 <!-- Form for file upload -->
-                <form id="uploadForm" th:action="@{/api/ocr/upload}" method="post" enctype="multipart/form-data">
+                <form id="uploadForm" th:action="@{/api/file/upload}" method="post" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="file" class="form-label">Prześlij plik do analizy OCR:</label>
                         <input type="file" id="file" name="file" class="form-control" required>

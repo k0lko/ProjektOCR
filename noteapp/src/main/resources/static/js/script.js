@@ -1,4 +1,3 @@
-// Handle listing a category options
 document.addEventListener("DOMContentLoaded", function () {
 
     fetch("http://localhost:8081/api/categories")
@@ -14,10 +13,31 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((data) => {
             const categoryList = document.getElementById("category")
             data.forEach(category => {
+                // allCategories.push(category.name);
                 const optionElement = document.createElement("option")
                 optionElement.value = category.name
                 optionElement.textContent = category.name
                 categoryList.appendChild(optionElement);
+                const liElement = document.createElement("li")
+                const filterDropdownList = document.getElementById("filterDropdownList")
+                liElement.textContent = category.name;
+                liElement.addEventListener("click", function() {
+                    liElement.classList.toggle("category-checked")
+                    const checkedCategory = liElement.textContent;
+                    const categoryLinks = document.getElementById("categoryLinks");
+                    Array.from(categoryLinks.children).forEach((child) => {
+                        console.log(child.textContent)
+                        console.log(checkedCategory)
+                        if (!child.textContent.includes(checkedCategory)) {
+                            if (liElement.classList.contains("category-checked")) {
+                                child.classList.add("hidden")
+                            } else {
+                                child.classList.remove("hidden")
+                            }
+                        }
+                    });
+                })
+                filterDropdownList.appendChild(liElement)
             });
         })
         .catch((error) =>  alert("Napotkano na błąd podczas odczytu dostępnych kategorii"))
@@ -41,7 +61,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         })
         .catch((error) =>  alert("Napotkano na błąd podczas odczytu dostępnych notatek"))
-
 });
 
 // Handle adding a new category
@@ -53,7 +72,20 @@ document.getElementById('addCategory').addEventListener('click', () => {
         optionElement.value = newCategory
         optionElement.textContent = newCategory
         categoryList.appendChild(optionElement);
-
+        const liElement = document.createElement("li")
+        const filterDropdownList = document.getElementById("filterDropdownList")
+        liElement.textContent = newCategory;
+        liElement.addEventListener("click", function() {
+            liElement.classList.toggle("category-checked")
+            const checkedCategory = liElement.textContent;
+            const categoryLinks = document.getElementById("categoryLinks");
+            Array.from(categoryLinks.children).forEach((child) => {
+                if (!child.textContent.includes(checkedCategory)) {
+                    child.classList.add("hidden");
+                }
+            });
+        })
+        filterDropdownList.appendChild(liElement)
         alert(`Dodano kategorię: ${newCategory}`);
     }
 });
@@ -97,6 +129,12 @@ document.getElementById('documentForm').addEventListener('submit', (e) => {
 
 // Handle dropdown visibility
 document.querySelector('.dropdown-btn').addEventListener('click', function () {
-    const dropdownContent = this.nextElementSibling;
-    dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+    const dropdownContent = this.nextElementSibling
+    dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block'
 });
+
+// Handle displaying the category dropdown
+document.getElementById("filterIcon").addEventListener("click", function () {
+    const dropdown = document.getElementById("filterDropdownMenu");
+    dropdown.classList.toggle("hidden")
+})

@@ -12,9 +12,12 @@
     <!-- Navbar -->
     <aside class="sidebar">
         <h2>Menu</h2>
+        <img id="filterIcon" src="../static/icons/filter-icon.svg" th:src="@{/icons/filter-icon.svg}" alt="filter icon">
+        <div id="filterDropdownMenu" class="dropdown-filter hidden">
+            <ul id="filterDropdownList"></ul>
+        </div>
         <ul>
-            <li><p>OCR<a href="./ocr.html" th:href="@{ocr}"></a>
-            </p></li>
+            <li><a href="./ocr.html" th:href="@{ocr}">OCR</a></li>
             <li class="dropdown">
                 <button class="dropdown-btn">Dokumenty</button>
                 <ul class="dropdown-content" id="categoryLinks">

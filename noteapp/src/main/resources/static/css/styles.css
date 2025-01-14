@@ -14,34 +14,40 @@ body, h1, h2, p, ul, li, a, input, textarea, select, button {
 
 /* Sidebar styling */
 .sidebar {
+    display: flex;
+    flex-direction: column;
     width: 250px;
     background-color: #f4f4f4;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    overflow: visible;
 }
 
-.sidebar h2 {
-    margin-bottom: 20px;
+.sidebar > * {
+    margin-bottom: 5px;
 }
 
 .sidebar ul {
     list-style: none;
 }
 
-.sidebar ul li {
-    margin-bottom: 10px;
-}
-
 .sidebar ul li a,
 .sidebar ul li button {
     text-decoration: none;
     color: #333;
-    padding: 10px;
+    margin-bottom: 10px;
     display: block;
     border: none;
     background: none;
     cursor: pointer;
     text-align: left;
+}
+
+#filterIcon {
+    margin-left: auto;
+    width: 20px;
+    height: 20px;
+    cursor: pointer ;
 }
 
 .dropdown-content {
@@ -52,7 +58,7 @@ body, h1, h2, p, ul, li, a, input, textarea, select, button {
 }
 
 .dropdown-content li {
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 .dropdown-btn:hover + .dropdown-content,
@@ -113,4 +119,26 @@ form button:hover {
 .category-input button {
     width: auto;
     padding: 10px 15px;
+}
+
+.hidden {
+    display: none;
+}
+
+.dropdown-filter {
+    width: 150px;
+    z-index: 100;
+    margin-left: auto;
+    text-align: center;
+}
+
+#filterDropdownList li {
+    margin-bottom: 7px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+}
+
+.category-checked {
+    background-color: #007bff;
+    color: white;
 }

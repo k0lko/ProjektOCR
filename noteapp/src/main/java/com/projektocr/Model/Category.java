@@ -1,5 +1,8 @@
 package com.projektocr.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -10,10 +13,8 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Category implements Serializable {
-
-    public static final String CATEGORY_ID_COLUMN_NAME = "category_id";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +24,7 @@ public class Category implements Serializable {
     private String name;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"category"})
     private Set<Note> notes;
 
     public Long getId() {

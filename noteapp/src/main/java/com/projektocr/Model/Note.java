@@ -1,5 +1,7 @@
 package com.projektocr.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,8 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-@Getter
-@Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Note {
 
     private static final String CATEGORY_ID_COLUMN = "category_id";
@@ -24,6 +25,7 @@ public class Note {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = CATEGORY_ID_COLUMN, nullable = false)
+    @JsonIgnoreProperties({"category"})
     private Category category;
 
     private String title;
@@ -39,5 +41,41 @@ public class Note {
         Category category = new Category();
         category.setName(name);
         return category;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getImageFilePath() {
+        return imageFilePath;
+    }
+
+    public void setImageFilePath(String imageFilePath) {
+        this.imageFilePath = imageFilePath;
     }
 }

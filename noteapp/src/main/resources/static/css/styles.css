@@ -44,10 +44,11 @@ body, h1, h2, p, ul, li, a, input, textarea, select, button {
 }
 
 #filterIcon {
-    margin-left: auto;
     width: 20px;
     height: 20px;
-    cursor: pointer ;
+    cursor: pointer;
+    padding-bottom: 5px;
+    padding-top: 5px;
 }
 
 .dropdown-content {
@@ -102,7 +103,7 @@ form button {
 }
 
 form button:hover {
-    background-color: #0056b3;
+    background-color: #5e057e;
 }
 
 /* Category input styling */
@@ -128,7 +129,6 @@ form button:hover {
 .dropdown-filter {
     width: 150px;
     z-index: 100;
-    margin-left: auto;
     text-align: center;
 }
 
@@ -141,4 +141,12 @@ form button:hover {
 .category-checked {
     background-color: #007bff;
     color: white;
+}
+
+.logout-btn {
+    width: 150px;
+}
+
+.logout-form {
+    margin-left: auto;
 }

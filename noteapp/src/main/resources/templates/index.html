@@ -11,6 +11,9 @@
 <div class="container">
     <!-- Navbar -->
     <aside class="sidebar">
+        <form class="logout-form" action="/logout" method="POST">
+            <button class="logout-btn" type="submit">Wyloguj</button>
+        </form>
         <h2>Menu</h2>
         <img id="filterIcon" src="../static/icons/filter-icon.svg" th:src="@{/icons/filter-icon.svg}" alt="filter icon">
         <div id="filterDropdownMenu" class="dropdown-filter hidden">

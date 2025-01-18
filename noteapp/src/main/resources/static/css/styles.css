@@ -14,6 +14,7 @@ body, h1, h2, p, ul, li, a, input, textarea, select, button {
 
 /* Sidebar styling */
 .sidebar {
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 250px;
@@ -21,6 +22,7 @@ body, h1, h2, p, ul, li, a, input, textarea, select, button {
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     overflow: visible;
+    padding-bottom: 60px; /* Dodane */
 }
 
 .sidebar > * {
@@ -52,7 +54,7 @@ body, h1, h2, p, ul, li, a, input, textarea, select, button {
 }
 
 .dropdown-content {
-    display: none;
+    display: block;
     list-style: none;
     margin-top: 5px;
     margin-left: 10px;
@@ -130,23 +132,31 @@ form button:hover {
     width: 150px;
     z-index: 100;
     text-align: center;
+    display: block;
 }
 
 #filterDropdownList li {
     margin-bottom: 7px;
+    border-radius: 20px;
     cursor: pointer;
     border: 1px solid #ccc;
 }
 
 .category-checked {
+    border-radius: 20px;
     background-color: #007bff;
     color: white;
 }
 
 .logout-btn {
-    width: 150px;
+    border-radius: 20px; /* Przykładowa wartość - dostosuj do swoich potrzeb */
+    position: absolute;
+    bottom: 10px;
+    margin-left: 70px;
+    left: 0; /* Dodane */
+    width: 50%;
 }
 
 .logout-form {
-    margin-left: auto;
+    /* Usunięte: margin-top: auto; */
 }

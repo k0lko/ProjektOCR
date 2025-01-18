@@ -14,29 +14,30 @@ body, h1, h2, p, ul, li, a, input, textarea, select, button {
 
 /* Sidebar styling */
 .sidebar {
+    position: relative;
+    display: flex;
+    flex-direction: column;
     width: 250px;
     background-color: #f4f4f4;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    overflow: visible;
+    padding-bottom: 60px; /* Dodane */
 }
 
-.sidebar h2 {
-    margin-bottom: 20px;
+.sidebar > * {
+    margin-bottom: 5px;
 }
 
 .sidebar ul {
     list-style: none;
 }
 
-.sidebar ul li {
-    margin-bottom: 10px;
-}
-
 .sidebar ul li a,
 .sidebar ul li button {
     text-decoration: none;
     color: #333;
-    padding: 10px;
+    margin-bottom: 10px;
     display: block;
     border: none;
     background: none;
@@ -44,15 +45,23 @@ body, h1, h2, p, ul, li, a, input, textarea, select, button {
     text-align: left;
 }
 
+#filterIcon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
 .dropdown-content {
-    display: none;
+    display: block;
     list-style: none;
     margin-top: 5px;
     margin-left: 10px;
 }
 
 .dropdown-content li {
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 .dropdown-btn:hover + .dropdown-content,
@@ -96,7 +105,7 @@ form button {
 }
 
 form button:hover {
-    background-color: #0056b3;
+    background-color: #5e057e;
 }
 
 /* Category input styling */
@@ -113,4 +122,203 @@ form button:hover {
 .category-input button {
     width: auto;
     padding: 10px 15px;
+}
+
+.hidden {
+    display: none;
+}
+
+.dropdown-filter {
+    width: 150px;
+    z-index: 100;
+    text-align: center;
+    display: block;
+}
+
+#filterDropdownList li {
+    margin-bottom: 7px;
+    border-radius: 20px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+}
+
+.category-checked {
+    border-radius: 20px;
+    background-color: #007bff;
+    color: white;
+}
+
+.logout-btn {
+    border-radius: 20px; /* Przykładowa wartość - dostosuj do swoich potrzeb */
+    position: absolute;
+    bottom: 10px;
+    margin-left: 70px;
+    left: 0; /* Dodane */
+    width: 50%;
+}
+
+.logout-form {
+    /* Usunięte: margin-top: auto; */
+}
+/* Reset styles */
+body, h1, h2, p, ul, li, a, input, textarea, select, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Container layout */
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar styling */
+.sidebar {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    overflow: visible;
+    padding-bottom: 60px; /* Dodane */
+}
+
+.sidebar > * {
+    margin-bottom: 5px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li a,
+.sidebar ul li button {
+    text-decoration: none;
+    color: #333;
+    margin-bottom: 10px;
+    display: block;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+#filterIcon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.dropdown-content {
+    display: block;
+    list-style: none;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.dropdown-content li {
+    margin-bottom: 10px;
+}
+
+.dropdown-btn:hover + .dropdown-content,
+.dropdown-btn:focus + .dropdown-content {
+    display: block;
+}
+
+/* Main content styling */
+.main-content {
+    flex: 1;
+    padding: 40px;
+    background-color: #ffffff;
+}
+
+.main-content h1 {
+    margin-bottom: 20px;
+}
+
+form label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+form input,
+form textarea,
+form select,
+form button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #5e057e;
+}
+
+/* Category input styling */
+.category-input {
+    display: flex;
+    align-items: center;
+}
+
+.category-input select {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.category-input button {
+    width: auto;
+    padding: 10px 15px;
+}
+
+.hidden {
+    display: none;
+}
+
+.dropdown-filter {
+    width: 150px;
+    z-index: 100;
+    text-align: center;
+    display: block;
+}
+
+#filterDropdownList li {
+    margin-bottom: 7px;
+    border-radius: 20px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+}
+
+.category-checked {
+    border-radius: 20px;
+    background-color: #007bff;
+    color: white;
+}
+
+.logout-btn {
+    border-radius: 20px; /* Przykładowa wartość - dostosuj do swoich potrzeb */
+    position: absolute;
+    bottom: 10px;
+    margin-left: 70px;
+    left: 0; /* Dodane */
+    width: 50%;
+}
+
+.logout-form {
+    /* Usunięte: margin-top: auto; */
 }

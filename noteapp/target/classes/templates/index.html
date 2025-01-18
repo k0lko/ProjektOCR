@@ -1,33 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menadżer Notatek</title>
-    <!-- Zmiana ścieżki dla CSS -->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 <div class="container">
-    <!-- Navbar -->
     <aside class="sidebar">
+        <form class="logout-form" action="/logout" method="POST">
+            <button class="logout-btn" type="submit">Wyloguj</button>
+        </form>
+
         <h2>Menu</h2>
-        <ul>
-            <li><p>OCR<a th:href="@{/ocr.html}"></a>
-            </p></li>
-            <li class="dropdown">
-                <button class="dropdown-btn">Dokumenty</button>
-                <ul class="dropdown-content" id="categoryLinks">
-                    <!-- Kategorie dodane przez użytkownika pojawią się tutaj -->
-                </ul>
-            </li>
-        </ul>
+
+        <nav class="navbar">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" th:href="@{ocr}">OCR</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{AllFiles}">Wszystkie Pliki</a></li>
+                <img id="filterIcon" th:src="@{/icons/filter-icon.svg}" alt="filter icon">
+                <div id="filterDropdownMenu" class="dropdown-filter hidden">
+                    <ul id="filterDropdownList"></ul>
+                </div>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dokumenty
+                    </a>
+                    <ul class="dropdown-menu" id="categoryLinks" aria-labelledby="navbarDropdown">
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
     </aside>
 
-    <!-- Main content -->
     <main class="main-content">
         <h1>Dodaj dokument</h1>
-        <form id="documentForm">
+        <form id="documentForm" th:action="@{/upload}" method="post" enctype="multipart/form-data">
             <label for="title">Tytuł</label>
             <input type="text" id="title" name="title" placeholder="Wprowadź tytuł" required>
 
@@ -38,6 +48,7 @@
             <div class="category-input">
                 <select id="category" name="category">
                     <option value="" disabled selected>Wybierz kategorię</option>
+                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
                 </select>
                 <button type="button" id="addCategory">Dodaj kategorię</button>
             </div>
@@ -47,10 +58,11 @@
 
             <button type="submit">Dodaj dokument</button>
         </form>
+
+
     </main>
 </div>
 
-<!-- Zmiana ścieżki dla JavaScript -->
-<script src="js/script.js"></script>
+<script th:src="@{/js/script.js}"></script>
 </body>
 </html>

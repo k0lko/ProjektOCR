@@ -1,53 +1,74 @@
 package com.projektocr.Controller;
 
+import com.projektocr.Model.FileProcess;
+import com.projektocr.Service.FileProcessingService;
+import com.projektocr.Service.FileService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/files/upload")
+@RequestMapping("/api/files")
 public class FileController {
 
-    private final String uploadDir;
+    private final FileService fileService;
+    private final FileProcessingService fileProcessingService;
 
-    public FileController() {
-        // Pobieranie katalogu roboczego aplikacji
-        String projectDir = System.getProperty("user.dir");
-
-        // Ścieżka do folderu, gdzie będą przechowywane pliki
-        this.uploadDir = projectDir + "/uploads";  // Możesz zmienić nazwę folderu, np. "/files"
+    @Autowired
+    public FileController(FileService fileService, FileProcessingService fileProcessingService) {
+        this.fileService = fileService;
+        this.fileProcessingService = fileProcessingService;
     }
 
-    @PostMapping
+    @PostMapping("/upload")
     public ResponseEntity<String> handleFileUpload(@RequestParam("title") String title,
                                                    @RequestParam("description") String description,
                                                    @RequestParam("category") String category,
                                                    @RequestParam("file") MultipartFile file) {
         try {
-            // Sprawdzenie, czy plik jest pusty
-            if (file.isEmpty()) {
-                return ResponseEntity.badRequest().body("Plik jest wymagany!");
-            }
-
-            // Sprawdzenie i stworzenie katalogu, jeśli nie istnieje
-            Path uploadPath = Paths.get(uploadDir);
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-
-            // Zapis pliku na serwerze
-            Path filePath = uploadPath.resolve(file.getOriginalFilename());
-            file.transferTo(filePath.toFile());
-
-            return ResponseEntity.ok("Dokument został dodany!");
+            String uniqueFileName = fileService.saveFile(file);
+            FileProcess fileProcess = new FileProcess();
+            fileProcess.setNazwa(title);
+            fileProcess.setOpis(description);
+            fileProcess.setKategoria(category);
+            fileProcess.setNazwaPliku(uniqueFileName);
+            fileProcessingService.processFile(fileProcess);
+            return ResponseEntity.ok("Plik przesłany i przetworzony!");
         } catch (IOException e) {
             e.printStackTrace();
-            return ResponseEntity.status(500).body("Błąd serwera podczas zapisywania pliku!");
+            return ResponseEntity.status(500).body("Błąd przesyłania pliku!");
         }
+    }
+
+    @GetMapping("/download/{fileName:.+}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
+        Resource resource = fileService.loadFileAsResource(fileName);
+        if (resource == null) {
+            return ResponseEntity.notFound().build();
+        }
+        String contentType = "application/octet-stream"; // Domyślny typ MIME
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
+    }
+
+    @DeleteMapping("/delete/{fileName:.+}")
+    public ResponseEntity<String> deleteFile(@PathVariable String fileName) {
+        fileService.deleteFile(fileName);
+        return ResponseEntity.ok("Plik usunięty!");
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<FileProcess>> getFileList(){
+        List<FileProcess> fileList = fileProcessingService.getAllProcessedFiles();
+        return ResponseEntity.ok(fileList);
     }
 }

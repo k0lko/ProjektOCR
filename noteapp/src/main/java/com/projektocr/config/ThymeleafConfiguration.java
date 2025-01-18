@@ -27,6 +27,8 @@ public class ThymeleafConfiguration implements WebMvcConfigurer {
 
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/ocr").setViewName("ocr");
+        registry.addViewController("/help").setViewName("help");
+        registry.addViewController("/AllFiles").setViewName("AllFiles");
     }
 
 }
